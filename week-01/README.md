@@ -19,7 +19,7 @@ Which tag has the following text? - *Write the image ID to the file*
 - [ ] `--idimage string`
 - [ ] `--idfile string`
 
-Command used to get the answer: docker build --help | grep 'Write the image ID to the file'
+Command used to get the answer: ```docker build --help | grep 'Write the image ID to the file'```
 
 ## Question 2. Understanding docker first run 
 
@@ -33,8 +33,8 @@ How many python packages/modules are installed?
 - [ ] 7
 
 Commands used to get the answer:
-- docker build --help | grep 'Write the image ID to the file'
-- pip list
+- ```docker build --help | grep 'Write the image ID to the file'```
+- ```pip list```
 
 # Prepare Postgres
 
@@ -139,7 +139,7 @@ WHERE 1=1
 	AND tzld."LocationID" = gtt."DOLocationID"
 	AND tzlp."Zone" = 'Astoria'
 ORDER BY tip_amount DESC;
-ˋˋˋ
+ ```
 
 ## Submitting the solutions
 
