@@ -33,7 +33,7 @@ How many python packages/modules are installed?
 - [ ] 7
 
 Commands used to get the answer:
-- ```docker build --help | grep 'Write the image ID to the file'```
+- ```docker run -it python:3.9 /bin/bash```
 - ```pip list```
 
 # Prepare Postgres
