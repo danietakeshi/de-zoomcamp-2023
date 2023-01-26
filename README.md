@@ -21,4 +21,4 @@ Tópicos da primeira semana:
 
 Anotações, arquivos utilizados e atividades estão em um repositório do [GitHub](https://github.com/danietakeshi/de-zoomcamp-2023).
 
-\#dezoomcamp
+\[#dezoomcamp](https://www.linkedin.com/posts/daniel-takeshi-martins-a62259aa_python-sql-dataengineering-activity-7024192540534841344-FYmU?utm_source=share&utm_medium=member_desktop)
