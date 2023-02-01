@@ -2,6 +2,7 @@ from pathlib import Path
 import pandas as pd
 from prefect import flow, task
 from prefect_gcp import GcsBucket
+from prefect.tasks import task_input_hash
 from datetime import timedelta
 
 @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
@@ -57,7 +58,7 @@ def etl_parent_flow(
 		etl_web_to_gcs(year, month, color)
 
 if __name__ == '__main__':
-	color = "yellow"
-	months = [1, 2, 3]
-	year = 2021
-    	etl_parent_flow(months, year, color)
+    color = "yellow"
+    months = [1, 2, 3]
+    year = 2021
+    etl_parent_flow(months, year, color)
