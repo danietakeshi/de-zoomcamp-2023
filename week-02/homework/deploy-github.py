@@ -3,15 +3,15 @@ from prefect.filesystems import GitHub
 
 github_block = GitHub.load("github-zoom")
 
-#github_block.get_file("week-02")
-print(github_block.save('week-02/parametrized_flow.py'))
-print(dir(github_block))
+github_block.get_directory()
 
-'''deployment = Deployment.build_from_flow(
-    flow="week-02/parametrized_flow.py:etl_parent_flow",
-    name="git",
+from parametrized_flow import etl_parent_flow
+
+deployment = Deployment.build_from_flow(
+    flow=etl_parent_flow,
+    name="git-run",
     version=1,
-    parameters={"color":"green", "months": [11], "year": 2020}
+    parameters={"color":"green", "months": [11], "year": 2020},
 )
 
-deployment.apply()'''
+deployment.apply()

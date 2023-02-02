@@ -176,10 +176,55 @@ How many rows were processed by the script?
 
 - [ ] 88,019
 - [ ] 192,297
-- [ ] 88,605
+- [x] 88,605
 - [ ] 190,225
 
+```
+from prefect.deployments import Deployment
+from prefect.filesystems import GitHub
 
+github_block = GitHub.load("github-zoom")
+
+github_block.get_directory()
+
+from parametrized_flow import etl_parent_flow
+
+deployment = Deployment.build_from_flow(
+    flow=etl_parent_flow,
+    name="git-run",
+    version=1,
+    parameters={"color":"green", "months": [11], "year": 2020},
+)
+
+deployment.apply()
+```
+
+```
+23:01:16.419 | INFO    | prefect.agent - Submitting flow run 'fb0dd07d-c5f4-467a-83bd-db9e415ec8c3'
+23:01:16.495 | INFO    | prefect.infrastructure.process - Opening process 'omicron4-humboldt-nebula'...
+23:01:16.525 | INFO    | prefect.agent - Completed submission of flow run 'fb0dd07d-c5f4-467a-83bd-db9e415ec8c3'
+c:\users\d.takeshi\appdata\local\programs\python\python39\lib\runpy.py:127: RuntimeWarning: 'prefect.engine' found in sys.modules after import of package 'prefect', but prior to execution of 'prefect.engine'; this may result in unpredictable behaviour
+  warn(RuntimeWarning(msg))
+23:01:20.494 | INFO    | Flow run 'omicron4-humboldt-nebula' - Downloading flow code from storage at 'C:\\Users\\d.takeshi\\Documents\\workspace\\de-zoomcamp-2023\\week-02\\homework'
+23:01:20.774 | INFO    | Flow run 'omicron4-humboldt-nebula' - Created subflow run 'vague-flamingo' for flow 'etl-web-to-gcs'
+23:01:20.843 | INFO    | Flow run 'vague-flamingo' - Created task run 'fetch-ba00c645-0' for task 'fetch'
+23:01:20.843 | INFO    | Flow run 'vague-flamingo' - Executing 'fetch-ba00c645-0' immediately...
+23:01:21.009 | INFO    | Task run 'fetch-ba00c645-0' - Finished in state Cached(type=COMPLETED)
+23:01:21.215 | INFO    | Flow run 'vague-flamingo' - Created task run 'clean-2c6af9f6-0' for task 'clean'
+23:01:21.215 | INFO    | Flow run 'vague-flamingo' - Executing 'clean-2c6af9f6-0' immediately...
+23:01:21.358 | INFO    | Task run 'clean-2c6af9f6-0' - rows: 88605
+23:01:21.376 | INFO    | Task run 'clean-2c6af9f6-0' - Finished in state Completed()
+23:01:21.425 | INFO    | Flow run 'vague-flamingo' - Created task run 'write_local-09e9d2b8-0' for task 'write_local'
+23:01:21.426 | INFO    | Flow run 'vague-flamingo' - Executing 'write_local-09e9d2b8-0' immediately...
+23:01:21.720 | INFO    | Task run 'write_local-09e9d2b8-0' - Finished in state Completed()
+23:01:21.761 | INFO    | Flow run 'vague-flamingo' - Created task run 'write_gcs-67f8f48e-0' for task 'write_gcs'
+23:01:21.761 | INFO    | Flow run 'vague-flamingo' - Executing 'write_gcs-67f8f48e-0' immediately...
+23:01:21.892 | INFO    | Task run 'write_gcs-67f8f48e-0' - Getting bucket 'zoomcamp-bucket'.
+23:01:24.161 | INFO    | Task run 'write_gcs-67f8f48e-0' - Uploading from 'data\\green\\green_tripdata_2020-11.parquet' to the bucket 'zoomcamp-bucket' path 'data\\green\\green_tripdata_2020-11.parquet'.
+23:01:28.392 | INFO    | Task run 'write_gcs-67f8f48e-0' - Finished in state Completed()
+23:01:28.440 | INFO    | Flow run 'vague-flamingo' - Finished in state Completed('All states completed.')
+23:01:28.466 | INFO    | Flow run 'omicron4-humboldt-nebula' - Finished in state Completed('All states completed.')
+```
 
 ## Question 5. Email or Slack notifications
 
@@ -207,8 +252,37 @@ How many rows were processed by the script?
 - [ ] `125,268`
 - [ ] `377,922`
 - [ ] `728,390`
-- [ ] `514,392`
+- [x] `514,392`
 
+```used web_hook: https://hooks.slack.com/services/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```
+
+```
+Takeshi's Flow:
+Flow run etl-parent-flow/chestnut-teal entered state Completed at 2023-02-02T10:46:37.090236+00:00.
+Flow ID: 9139412a-94d0-4435-be00-0b03e474c2fd
+Flow run ID: 1f2dbbc4-c74c-455b-ba3f-fcdf0f8ac7db
+Flow run URL: https://app.prefect.cloud/account/a81054f4-1636-4881-973f-eef111659f5d/workspace/0813832e-7235-48b2-b585-e5a0debab32d/flow-runs/flow-run/1f2dbbc4-c74c-455b-ba3f-fcdf0f8ac7db
+State message: All states completed.
+```
+```
+07:46:28.265 | INFO    | Flow run 'chestnut-teal' - Created subflow run 'dark-cuscus' for flow 'etl-web-to-gcs'
+07:46:29.118 | INFO    | Flow run 'dark-cuscus' - Created task run 'fetch-ba00c645-0' for task 'fetch'
+07:46:29.119 | INFO    | Flow run 'dark-cuscus' - Executing 'fetch-ba00c645-0' immediately...
+07:46:29.596 | INFO    | Task run 'fetch-ba00c645-0' - Finished in state Cached(type=COMPLETED)
+07:46:31.067 | INFO    | Flow run 'dark-cuscus' - Created task run 'clean-2c6af9f6-0' for task 'clean'
+07:46:31.068 | INFO    | Flow run 'dark-cuscus' - Executing 'clean-2c6af9f6-0' immediately...
+07:46:32.412 | INFO    | Task run 'clean-2c6af9f6-0' - rows: 514392
+07:46:32.682 | INFO    | Task run 'clean-2c6af9f6-0' - Finished in state Completed()
+07:46:32.920 | INFO    | Flow run 'dark-cuscus' - Created task run 'write_local-09e9d2b8-0' for task 'write_local'
+07:46:32.921 | INFO    | Flow run 'dark-cuscus' - Executing 'write_local-09e9d2b8-0' immediately...
+07:46:35.162 | INFO    | Task run 'write_local-09e9d2b8-0' - Finished in state Completed()
+07:46:35.386 | INFO    | Flow run 'dark-cuscus' - Created task run 'write_gcs-67f8f48e-0' for task 'write_gcs'
+07:46:35.387 | INFO    | Flow run 'dark-cuscus' - Executing 'write_gcs-67f8f48e-0' immediately...
+07:46:36.647 | INFO    | Task run 'write_gcs-67f8f48e-0' - Finished in state Completed()
+07:46:36.927 | INFO    | Flow run 'dark-cuscus' - Finished in state Completed('All states completed.')
+07:46:37.183 | INFO    | Flow run 'chestnut-teal' - Finished in state Completed('All states completed.')
+07:46:38.411 | INFO    | prefect.infrastructure.process - Process 'chestnut-teal' exited cleanly.
+```
 
 ## Question 6. Secrets
 
@@ -216,9 +290,10 @@ Prefect Secret blocks provide secure, encrypted storage in the database and obfu
 
 - [ ] 5
 - [ ] 6
-- [ ] 8
+- [x] 8
 - [ ] 10
 
+![secret](secret-prefect.png)
 
 ## Submitting the solutions
 
