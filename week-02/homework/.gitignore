@@ -4,5 +4,3 @@ ny_taxi_postgres_data
 .terraform/
 zoomcamp/
 zoom-env/
-.prefectignore
-*__pycache__*

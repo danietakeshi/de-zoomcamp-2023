@@ -63,10 +63,104 @@ Create a deployment for this flow to run in a local subprocess with local flow c
 
 Make sure you have the parquet data files for Yellow taxi data for Feb. 2019 and March 2019 loaded in GCS. Run your deployment to append this data to your BiqQuery table. How many rows did your flow code process?
 
-- [ ] 14,851,920
+- [x] 14,851,920
 - [ ] 12,282,990
 - [ ] 27,235,753
 - [ ] 11,338,483
+
+```
+from pathlib import Path
+import pandas as pd
+from prefect import flow, task
+from prefect_gcp.cloud_storage import GcsBucket
+from prefect_gcp import GcpCredentials
+
+@task(log_prints=True)
+def extract_from_gcs(color: str, year: int, month: int) -> Path:
+	"""Download trip data from GCS"""
+	gcs_path = f"{color}/{color}_tripdata_{year}-{month:02}.parquet"
+	gcs_block = GcsBucket.load("zoom-gcs")
+	gcs_block.get_directory(from_path=gcs_path, local_path=f"../data/")
+	return Path(f"data/{gcs_path}")
+
+@task(log_prints=True)
+def transform(path: Path) -> pd.DataFrame:
+	"""Data cleaning example"""
+	df = pd.read_parquet(path)
+	#print(f"pre: missing passenger count: {df['passenger_count'].isna().sum()}")
+	#df['passenger_count'].fillna(0, inplace=True) --> remove filling null values
+	#print(f"post: missing passenger count: {df['passenger_count'].isna().sum()}")
+	try:
+		df.drop('airport_fee', axis=1, inplace=True) # --> drop column 'airport_fee'
+	except:
+		print(f"no column airport_fee to drop")
+	
+	return df
+
+@task(log_prints=True)
+def write_bq(df: pd.DataFrame) -> None:
+	"""Write DataFrame to BigQuery"""
+
+	gcp_credentials_block = GcpCredentials.load("zoom-gcp-creds")
+
+	df.to_gbq(
+		destination_table="dezoomcamp.trips_data_2019",
+		project_id="coherent-bliss-275820",
+		credentials= gcp_credentials_block.get_credentials_from_service_account(),
+		chunksize=500_000,
+		if_exists="append",
+	)
+
+@flow(log_prints=True)
+def etl_gcs_to_bq(year: int, month: int, color: str):
+	"""Main ETL flow to load data into Big Query"""
+	
+	path = extract_from_gcs(color, year, month)
+	df = transform(path)
+	print(f"row count: {df.shape[0]}") # --> print number of rows processed
+	write_bq(df)
+
+@flow()
+def etl_parent_flow(
+	months: list[int] = [2, 3], year: int = 2019, color: str = "yellow"
+):
+	for month in months:
+		etl_gcs_to_bq(year, month, color)
+
+if __name__ == "__main__":
+	etl_parent_flow()
+```
+
+```
+21:57:24.833 | INFO    | prefect.engine - Created flow run 'solemn-muskrat' for flow 'etl-parent-flow'
+21:57:25.193 | INFO    | Flow run 'solemn-muskrat' - Created subflow run 'rare-piculet' for flow 'etl-gcs-to-bq'
+21:57:25.293 | INFO    | Flow run 'rare-piculet' - Created task run 'extract_from_gcs-968e3b65-0' for task 'extract_from_gcs'
+21:57:25.293 | INFO    | Flow run 'rare-piculet' - Executing 'extract_from_gcs-968e3b65-0' immediately...
+21:57:25.929 | INFO    | Task run 'extract_from_gcs-968e3b65-0' - Finished in state Completed()
+21:57:25.963 | INFO    | Flow run 'rare-piculet' - Created task run 'transform-a7d916b4-0' for task 'transform'
+21:57:25.964 | INFO    | Flow run 'rare-piculet' - Executing 'transform-a7d916b4-0' immediately...
+21:57:27.003 | INFO    | Task run 'transform-a7d916b4-0' - no column airport_fee to drop
+21:57:27.027 | INFO    | Task run 'transform-a7d916b4-0' - Finished in state Completed()
+21:57:27.027 | INFO    | Flow run 'rare-piculet' - row count: 7019375
+21:57:27.065 | INFO    | Flow run 'rare-piculet' - Created task run 'write_bq-b366772c-0' for task 'write_bq'
+21:57:27.065 | INFO    | Flow run 'rare-piculet' - Executing 'write_bq-b366772c-0' immediately...
+21:59:50.445 | INFO    | Task run 'write_bq-b366772c-0' - Finished in state Completed()
+21:59:50.479 | INFO    | Flow run 'rare-piculet' - Finished in state Completed('All states completed.')
+21:59:50.578 | INFO    | Flow run 'solemn-muskrat' - Created subflow run 'premium-loon' for flow 'etl-gcs-to-bq'
+21:59:50.662 | INFO    | Flow run 'premium-loon' - Created task run 'extract_from_gcs-968e3b65-0' for task 'extract_from_gcs'
+21:59:50.662 | INFO    | Flow run 'premium-loon' - Executing 'extract_from_gcs-968e3b65-0' immediately...
+21:59:51.295 | INFO    | Task run 'extract_from_gcs-968e3b65-0' - Finished in state Completed()
+21:59:51.347 | INFO    | Flow run 'premium-loon' - Created task run 'transform-a7d916b4-0' for task 'transform'
+21:59:51.347 | INFO    | Flow run 'premium-loon' - Executing 'transform-a7d916b4-0' immediately...
+21:59:52.540 | INFO    | Task run 'transform-a7d916b4-0' - no column airport_fee to drop
+21:59:52.611 | INFO    | Task run 'transform-a7d916b4-0' - Finished in state Completed()
+21:59:52.613 | INFO    | Flow run 'premium-loon' - row count: 7832545
+21:59:52.683 | INFO    | Flow run 'premium-loon' - Created task run 'write_bq-b366772c-0' for task 'write_bq'
+21:59:52.685 | INFO    | Flow run 'premium-loon' - Executing 'write_bq-b366772c-0' immediately...
+22:01:42.011 | INFO    | Task run 'write_bq-b366772c-0' - Finished in state Completed()
+22:01:42.037 | INFO    | Flow run 'premium-loon' - Finished in state Completed('All states completed.')
+22:01:42.073 | INFO    | Flow run 'solemn-muskrat' - Finished in state Completed('All states completed.')
+```
 
 
 
