@@ -14,6 +14,8 @@ How many rows does that dataset have?
 - [ ] 299,234
 - [ ] 822,132
 
+Using parametrized deployment and changing parameters to ```{ "color":"green", "months":[1] , "year":2020 }```
+
 ```
 15:45:53.047 | INFO    | prefect.engine - Created flow run 'agate-mule' for flow 'etl-parent-flow'
 15:45:53.378 | INFO    | Flow run 'agate-mule' - Created subflow run 'flying-raptor' for flow 'etl-web-to-gcs'
@@ -48,6 +50,14 @@ Using the flow in `etl_web_to_gcs.py`, create a deployment to run on the first o
 - [ ] `* * 5 1 0`
 
 ```“At 05:00 on day-of-month 1.”```
+```
+0 5 1 * *
+│ │ │ │ └───weekday
+│ │ │ └───month
+│ │ └───day
+│ └───hour
+└───minute
+```
 
 ## Question 3. Loading data to BigQuery 
 
@@ -254,7 +264,7 @@ How many rows were processed by the script?
 - [ ] `728,390`
 - [x] `514,392`
 
-```used web_hook: https://hooks.slack.com/services/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```
+```used a Slack webhook```
 
 ```
 Takeshi's Flow:
