@@ -293,7 +293,7 @@ Prefect Secret blocks provide secure, encrypted storage in the database and obfu
 - [x] 8
 - [ ] 10
 
-![secret](prefect_six.png)
+![secret](homework/prefect_six.png)
 
 ## Submitting the solutions
 
