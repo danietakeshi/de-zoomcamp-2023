@@ -1,13 +1,13 @@
 ###
 ### A complete description of a Prefect Deployment for flow 'etl-parent-flow'
 ###
-name: Parametrized ETL
+name: GCS to BQ
 description: null
-version: 9310cad3ef54c39b716a9dafb05f9716
+version: aaf3e7529c0a453c39ddd9767643cf77
 # The work queue that will handle this deployment's runs
 work_queue_name: default
 tags: []
-parameters: { "color" : "yellow", "months" : [1, 2, 3], "year" : 2021 }
+parameters: { "color":"yellow", "months": [2, 3], "year": 2019 }
 schedule: null
 infra_overrides: {}
 infrastructure:
@@ -28,7 +28,7 @@ flow_name: etl-parent-flow
 manifest_path: null
 storage: null
 path: C:\Users\d.takeshi\Documents\workspace\de-zoomcamp-2023\week-02
-entrypoint: parametrized_flow.py:etl_parent_flow
+entrypoint: gcp\etl_gcs_to_bq_hw.py:etl_parent_flow
 parameter_openapi_schema:
   title: Parameters
   type: object

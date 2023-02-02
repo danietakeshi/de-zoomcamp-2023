@@ -9,11 +9,32 @@ Using the `etl_web_to_gcs.py` flow that loads taxi data into GCS as a guide, cre
 
 How many rows does that dataset have?
 
-- [ ] 447,770
+- [x] 447,770
 - [ ] 766,792
 - [ ] 299,234
 - [ ] 822,132
 
+```
+15:45:53.047 | INFO    | prefect.engine - Created flow run 'agate-mule' for flow 'etl-parent-flow'
+15:45:53.378 | INFO    | Flow run 'agate-mule' - Created subflow run 'flying-raptor' for flow 'etl-web-to-gcs'
+15:45:53.521 | INFO    | Flow run 'flying-raptor' - Created task run 'fetch-b4598a4a-0' for task 'fetch'
+15:45:53.523 | INFO    | Flow run 'flying-raptor' - Executing 'fetch-b4598a4a-0' immediately...
+15:45:53.561 | INFO    | Task run 'fetch-b4598a4a-0' - Finished in state Cached(type=COMPLETED)
+15:45:54.560 | INFO    | Flow run 'flying-raptor' - Created task run 'clean-b9fd7e03-0' for task 'clean'
+15:45:54.560 | INFO    | Flow run 'flying-raptor' - Executing 'clean-b9fd7e03-0' immediately...
+15:45:55.211 | INFO    | Task run 'clean-b9fd7e03-0' - rows: 447770
+15:45:55.349 | INFO    | Task run 'clean-b9fd7e03-0' - Finished in state Completed()
+15:45:55.382 | INFO    | Flow run 'flying-raptor' - Created task run 'write_local-f322d1be-0' for task 'write_local'
+15:45:55.386 | INFO    | Flow run 'flying-raptor' - Executing 'write_local-f322d1be-0' immediately...
+15:45:56.528 | INFO    | Task run 'write_local-f322d1be-0' - Finished in state Completed()
+15:45:56.560 | INFO    | Flow run 'flying-raptor' - Created task run 'write_gcs-1145c921-0' for task 'write_gcs'
+15:45:56.561 | INFO    | Flow run 'flying-raptor' - Executing 'write_gcs-1145c921-0' immediately...
+15:45:56.710 | INFO    | Task run 'write_gcs-1145c921-0' - Getting bucket 'zoomcamp-bucket'.
+15:45:57.602 | INFO    | Task run 'write_gcs-1145c921-0' - Uploading from 'data\\green\\green_tripdata_2020-01.parquet' to the bucket 'zoomcamp-bucket' path 'data\\green\\green_tripdata_2020-01.parquet'.
+15:46:01.699 | INFO    | Task run 'write_gcs-1145c921-0' - Finished in state Completed()
+15:46:01.742 | INFO    | Flow run 'flying-raptor' - Finished in state Completed('All states completed.')
+15:46:01.791 | INFO    | Flow run 'agate-mule' - Finished in state Completed('All states completed.')
+```
 
 ## Question 2. Scheduling with Cron
 
@@ -21,11 +42,12 @@ Cron is a common scheduling specification for workflows.
 
 Using the flow in `etl_web_to_gcs.py`, create a deployment to run on the first of every month at 5am UTC. What’s the cron schedule for that?
 
-- [ ] `0 5 1 * *`
+- [x] `0 5 1 * *`
 - [ ] `0 0 5 1 *`
 - [ ] `5 * 1 0 *`
 - [ ] `* * 5 1 0`
 
+```“At 05:00 on day-of-month 1.”```
 
 ## Question 3. Loading data to BigQuery 
 
