@@ -1,5 +1,6 @@
 ny_taxi_postgres_data
 *.csv
+*.csv.gz
 *.parquet
 .terraform/
 zoomcamp/
