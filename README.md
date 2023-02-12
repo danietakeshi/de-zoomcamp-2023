@@ -42,3 +42,27 @@ Então se você tem dado no trabalho, dê uma olhada nesta ferramenta.
 Anotações, arquivos utilizados e atividades estão no meu repositório do [GitHub](https://github.com/danietakeshi/de-zoomcamp-2023).
 
 #dezoomcamp #week2 #dadonotrabalho
+
+---
+
+## Week 3
+
+Resumo da semana 3 da jornada de Data Engineering...
+
+Criação de um Data Warehouse no BigQuery.
+
+Esta ferramenta possui alguns benefícios como escalabilidade e alta disponibilidade possuindo serviços integrados de Machine Learning, análise Geoespacial e de Bussiness Intelligence.
+
+Entretanto, estes benefícios tem um custo, sendo necessário o planejamento e a otimização das consultas tendo em vista o aspecto financeiro.
+
+Dentro destas otimizações temos:
+- Partitioning: Cria partições baseadas em uma coluna temporal, por exemplo, agrupamento pelo dia de ingestão dos dados no banco.
+- Clustering: Faz o organização de dados correlacionados e otimiza as consultas que utilização o filtros nas colunas que possuem um cluster.
+
+Como exemplo de aplicações e quantificação dos benefícios destas otimizações, fizemos um exercícios de comparação entre as consultas com e sem a utilização do Partitioning e de Clustering. Sem o uso tivemos um total de 647MB de dados processados, e, após a aplicação, foram processados 23MB.
+
+Por este motivo a otimização das consultas é fundamental, principalmente quando estamos utilizando um banco de dados na nuvem, em que o custo está diretamente ligado na quantidade de dados processados.
+
+Anotações, arquivos utilizados e atividades estão no meu repositório do GitHub. (https://github.com/danietakeshi/de-zoomcamp-2023)
+
+#dezoomcamp #week3 #bigquery #otimização
