@@ -66,3 +66,21 @@ Por este motivo a otimização das consultas é fundamental, principalmente quan
 Anotações, arquivos utilizados e atividades estão no meu repositório do GitHub. (https://github.com/danietakeshi/de-zoomcamp-2023)
 
 #dezoomcamp #week3 #bigquery #otimização
+
+---
+
+## Week 4
+
+Semana 4 da jornada de Data Engineering...
+
+Utilizando o dbt (data build tool) para efetuar o processo de transformação de dados (criação de tabelas e views) em um DataLake no BigQuery.
+
+Dentro de um processo de ELT (Extract, Load and Transformation) o dbt será o responsável pela manipulação dos dados para a criação de uma tabela pronta para o consumo em um programa de visualização como o Google Data Studio.
+
+Uma das suas vantagens é a integração com o Github facilitando o versionamento dos modelos criados, além disso possui ferramentas para testes e documentação. Mostra de maneira visual as integrações das tabelas e views.
+
+Com os dados prontos, é só conectar a base de dados em um software de visualização para extrair informações relevantes.
+
+Anotações, arquivos utilizados e atividades estão no meu repositório do GitHub. (https://github.com/danietakeshi/de-zoomcamp-2023)
+
+#dezoomcamp #week4 #dbt #dataengineering #datastudio

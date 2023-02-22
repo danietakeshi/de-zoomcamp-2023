@@ -1,0 +1,14 @@
+ny_taxi_postgres_data
+*.csv
+*.csv.gz
+*.parquet
+.terraform/
+zoomcamp/
+zoom-env/
+.prefectignore
+*__pycache__*
+# Default .gitignore content added by dbt Cloud
+target/
+dbt_packages/
+logs/
+# end dbt Cloud content
