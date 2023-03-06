@@ -84,3 +84,22 @@ Com os dados prontos, é só conectar a base de dados em um software de visualiz
 Anotações, arquivos utilizados e atividades estão no meu repositório do GitHub. (https://github.com/danietakeshi/de-zoomcamp-2023)
 
 #dezoomcamp #week4 #dbt #dataengineering #datastudio
+
+---
+
+## Week 5
+
+Semana 5 da jornada de Data Engineering...
+
+Nesta semana utilizei o PySpark para o processamento de dados em lotes, que otimiza o tratamento dos dados e fornece suporte a SQL queries para facilitar a transformação dos dados.
+
+Efetuei a leitura dos dados em CSV, definição do schema, transformação por meio de funções e por SQL queries e escrita do relatório final no formato PARQUET.
+
+Outros tópicos abordados:
+    - Spark Internals;
+    - Resilient Distributed Datasets;
+    - Running Spark in the Cloud;
+
+Anotações, arquivos utilizados e atividades estão no meu repositório do GitHub. (https://github.com/danietakeshi/de-zoomcamp-2023)
+
+#dezoomcamp #week5 #spark #pyspark #dataengineering
