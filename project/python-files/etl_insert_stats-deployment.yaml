@@ -1,0 +1,42 @@
+###
+### A complete description of a Prefect Deployment for flow 'etl-insert-stats'
+###
+name: Insert Stats on BQ
+description: null
+version: 98fb8335bc53d9db9e00bc6f67ed07bd
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+tags: []
+parameters: {}
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: etl-insert-stats
+manifest_path: null
+storage: null
+path: C:\Users\d.takeshi\Documents\workspace\de-zoomcamp-2023\project\python-files
+entrypoint: etl_gcs_to_bq.py:etl_insert_stats
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    league_name:
+      title: league_name
+      default: World Cup
+      position: 0
+      type: string
+  required: null
+  definitions: null

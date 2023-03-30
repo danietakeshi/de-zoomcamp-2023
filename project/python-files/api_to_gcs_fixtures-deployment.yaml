@@ -1,0 +1,46 @@
+###
+### A complete description of a Prefect Deployment for flow 'api-to-gcs-fixtures'
+###
+name: api_to_gcs_fixtures
+description: null
+version: 02d7facf5d6b863124486b9c46ef7151
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+tags: []
+parameters: {}
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: api-to-gcs-fixtures
+manifest_path: null
+storage: null
+path: C:\Users\d.takeshi\Documents\workspace\de-zoomcamp-2023\project\python-files
+entrypoint: football-api.py:api_to_gcs_fixtures
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    dates:
+      title: dates
+      default:
+      - '2022-12-18'
+      - '2022-12-17'
+      - '2022-12-14'
+      position: 0
+      type: array
+      items: {}
+  required: null
+  definitions: null

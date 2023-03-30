@@ -1,0 +1,42 @@
+###
+### A complete description of a Prefect Deployment for flow 'api-to-gcs-player-stats'
+###
+name: Player Stats to GCS
+description: null
+version: 14a756de0ae6925963c55fcd88d4f7d2
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+tags: []
+parameters: {"league_name":'World Cup'}
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: api-to-gcs-player-stats
+manifest_path: null
+storage: null
+path: C:\Users\d.takeshi\Documents\workspace\de-zoomcamp-2023\project\python-files
+entrypoint: football-api.py:api_to_gcs_player_stats
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    league_name:
+      title: league_name
+      default: World Cup
+      position: 0
+      type: string
+  required: null
+  definitions: null
