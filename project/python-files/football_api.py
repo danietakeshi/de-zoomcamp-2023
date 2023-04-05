@@ -8,14 +8,16 @@ from prefect.tasks import task_input_hash
 from datetime import timedelta
 import os
 
+secret_block = Secret.load('football-api-key')
+
 headers = {
-    "X-RapidAPI-Key": f"{Secret.load('football-api-key')}",
+    "X-RapidAPI-Key": f"{secret_block.get()}",
     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
 }
 
-save_dir = 'C:/Users/d.takeshi/Documents/workspace/de-zoomcamp-2023/project/parquet_files'
+save_dir = './parquet_files'
 
-@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+@task(retries=1, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 def get_fixtures(date: str):
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures" 
     querystring = {"date":f"{date}"}
@@ -27,7 +29,11 @@ def get_fixtures(date: str):
     df.to_parquet(f'{save_dir}/fixtures_{fixture_date}.parquet')
     print(f'file fixtures_{fixture_date}.parquet saved on folder!')
 
-    return Path(f'{save_dir}/fixtures_{fixture_date}.parquet'), f'fixtures_{fixture_date}.parquet'
+    fixture_id = []
+    df = df[df["league.name"] == 'World Cup']
+    fixture_id.extend(df['fixture.id'].tolist())
+
+    return Path(f'{save_dir}/fixtures_{fixture_date}.parquet'), f'fixtures_{fixture_date}.parquet', [str(x) for x in fixture_id]
 
 @task()
 def get_fixture_id(league_name: str) -> list:
@@ -79,8 +85,12 @@ def write_gcs(path: Path, file: str) -> None:
 @flow()
 def api_to_gcs_fixtures(dates: list = ['2022-12-18', '2022-12-17', '2022-12-14']) -> None:
     for date in dates:
-        path, file = get_fixtures(date)
+        path, file, fixture_list = get_fixtures(date)
         write_gcs(path, file)
+        
+        for fixture_id in fixture_list:
+            path, file = get_players_stats(fixture_id)
+            write_gcs(path, file)
 
 @flow()
 def api_to_gcs_player_stats(league_name: str = 'World Cup') -> None:
@@ -89,12 +99,17 @@ def api_to_gcs_player_stats(league_name: str = 'World Cup') -> None:
         if 'players_stats' in file:
             fixture_list.remove(file[14:20])
 
-    count=0
     for fixture_id in fixture_list:
-        if count <= 99:
-            path, file = get_players_stats(fixture_id)
-            write_gcs(path, file)
-            count+=1
+        path, file = get_players_stats(fixture_id)
+        write_gcs(path, file)
+
+@flow()
+def api_to_gcs_player_stats_file(league_name: str, file: str) -> None:
+    fixture_list = get_fixture_id(league_name, file)
+
+    for fixture_id in fixture_list:
+        path, file = get_players_stats(fixture_id)
+        write_gcs(path, file)
 
 if __name__ == '__main__':
     dates = [
@@ -104,4 +119,5 @@ if __name__ == '__main__':
     ]
     #api_to_gcs_fixtures(dates)
     #get_players_stats('979139')
-    api_to_gcs_player_stats('World Cup')
+    api_to_gcs_fixtures()
+    #api_to_gcs_player_stats('World Cup')

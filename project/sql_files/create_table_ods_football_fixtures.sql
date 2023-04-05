@@ -1,5 +1,5 @@
 
-CREATE TABLE `coherent-bliss-275820.dezoomcamp.ods_football_fixtures`
+CREATE TABLE `coherent-bliss-275820.dezoomcamp_project.ods_football_fixtures`
 (
   fixture_id                INT,
   fixture_referee           STRING,

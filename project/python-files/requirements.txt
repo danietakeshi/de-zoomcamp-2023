@@ -1,0 +1,4 @@
+pandas==1.5.2
+prefect==2.7.7
+prefect_gcp==0.2.3
+requests==2.28.2

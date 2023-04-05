@@ -9,3 +9,8 @@ zoomcamp/
 zoom-env/
 .prefectignore
 *__pycache__*
+*.git*
+.terraform.lock.hcl
+.terraform
+terraform.tfstate
+terraform.tfstate.backup

@@ -1,4 +1,4 @@
-CREATE TABLE `coherent-bliss-275820.dezoomcamp.ods_football_stats` (
+CREATE TABLE `coherent-bliss-275820.dezoomcamp_project.ods_football_stats` (
 	fixture_id INT,
 	team_id INT,
 	team_name STRING,

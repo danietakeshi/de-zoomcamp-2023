@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+    - name: staging
+      #For bigquery:
+      database: coherent-bliss-275820
+      schema: dezoomcamp
+
+      tables:
+        - name: ods_football_fixtures
+        - name: ods_football_stats
+
