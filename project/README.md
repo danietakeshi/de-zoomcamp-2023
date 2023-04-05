@@ -113,7 +113,7 @@ prefect deployment run "etl-insert-fixtures/Insert Fixtures on Data Warehouse"
 
 prefect deployment run "etl-insert-fixtures/Insert Stats on Data Warehouse"
 ```
-!['resumo'](./img/prefect_cloud.png)
+!['resumo'](./img/prefect_cloud.PNG)
 
 
 The API-Football has a limitations of 100 calls on the free tier, so the Deployment "Insert on Data Lake" must be done when there are available calls. The file "world_cup_dates.parquet" contains the dates that the matches were played.
