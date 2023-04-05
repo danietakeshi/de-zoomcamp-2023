@@ -157,7 +157,7 @@ On the "schema.yml" file on the staging directory, alter the schema to the name 
 # 5. Dashboard no Tableau
 
 For presenting the data the Tableau software was used, once it has a direct connection to the Big Query tables.
-!['resumo'](./img/wc-info.png)
+!['resumo'](./img/wc-info.PNG)
 
 The Dashboard is published on the following link: https://public.tableau.com/app/profile/daniel.takeshi/viz/WorldCupInfo_16805323954260/WCInfo
 
